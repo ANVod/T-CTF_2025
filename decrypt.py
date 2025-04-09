@@ -1,7 +1,13 @@
 import base64
 
 encrypted = base64.b64decode(open("encrypted.txt", "rb").read())
-key = "capybara".encode() # 8 байт (название города [[3]])
 
-decrypted = bytes([encrypted[i] ^ key[i % 8] for i in range(len(encrypted))])
-print(decrypted.decode("latin-1"))
+# Перебор всех возможных ключей из контекста
+for key_candidate in ["carrots", "capy", "fur", "Kapibarovsk"]:
+    key = key_candidate.encode()
+    decrypted = bytes([encrypted[i] ^ key[i % len(key)] for i in range(len(encrypted))])
+try:
+    print(f"Key: {key_candidate}")
+    print(decrypted.decode())
+except:
+    print("Ошибка декодирования")
