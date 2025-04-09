@@ -1,8 +1,7 @@
-# Перебор однобайтовых ключей
+import base64
+
 encrypted = base64.b64decode(open("encrypted.txt", "rb").read())
-for key in range(256):
-    try:
-        decrypted = bytes([b ^ key for b in encrypted])
-        print(f"Key {key}: {decrypted.decode()}")
-    except:
-        continue
+key = "carrots".encode()  # Ключ из контекста задачи [[2]]
+
+decrypted = bytes([encrypted[i] ^ key[i % 7] for i in range(len(encrypted))])
+print(decrypted.decode("latin-1"))
